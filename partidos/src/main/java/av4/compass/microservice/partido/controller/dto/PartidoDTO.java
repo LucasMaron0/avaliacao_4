@@ -16,7 +16,7 @@ public class PartidoDTO {
 	private String nome;
 	private String sigla;
 	private Ideologia ideologia;
-	private LocalDate fundacao;
+	private String fundacao;
 	private List<Long> idAssociados;
 	
 	public PartidoDTO(Partido partido) {
@@ -24,13 +24,22 @@ public class PartidoDTO {
 		this.nome= partido.getNome();
 		this.sigla = partido.getSigla();
 		this.ideologia= partido.getIdeologia();
-		this.fundacao=partido.getFundacao();
+		this.fundacao= converterData(partido.getFundacao());
 		this.idAssociados = partido.getIdAssociados();
 	}
 	
 	public static Page<PartidoDTO> converter(Page <Partido> partidos){
 		return partidos.map(PartidoDTO::new);
 
+	}
+	
+	public String converterData (LocalDate data) {
+		int year = data.getYear();
+		int month = data.getMonthValue();
+		int day = data.getDayOfMonth();
+		
+		return (day+"/"+month+"/"+year);
+		
 	}
 
 	public Long getId() {
@@ -65,12 +74,12 @@ public class PartidoDTO {
 		this.ideologia = ideologia;
 	}
 
-	public LocalDate getFundacao() {
+	public String getFundacao() {
 		return fundacao;
 	}
 
 	public void setFundacao(LocalDate fundacao) {
-		this.fundacao = fundacao;
+		this.fundacao = converterData(fundacao);
 	}
 
 	public List<Long> getIdAssociados() {

@@ -1,6 +1,7 @@
 package av4.compass.microservice.associado.controller.dto;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.springframework.data.domain.Page;
 
@@ -13,7 +14,7 @@ public class AssociadoDTO {
 	private Long id;
 	private String nome;
 	private CargoPolitico cargo;
-	private  LocalDate nascimento;
+	private  String nascimento;
 	private Sexo sexo;
 	private String partido;
 	
@@ -22,7 +23,7 @@ public class AssociadoDTO {
 		this.id = associado.getId();
 		this.nome = associado.getNome();
 		this.cargo=associado.getCargo();
-		this.nascimento = associado.getNascimento();
+		this.nascimento = converterData(associado.getNascimento());
 		this.sexo = associado.getSexo();
 		this.partido = associado.getPartido();
 	}
@@ -31,6 +32,15 @@ public class AssociadoDTO {
 	public static Page<AssociadoDTO> converter(Page <Associado> associados){
 		return associados.map(AssociadoDTO::new);
 
+	}
+	
+	public String converterData (LocalDate data) {
+		int year = data.getYear();
+		int month = data.getMonthValue();
+		int day = data.getDayOfMonth();
+		
+		return (day+"/"+month+"/"+year);
+		
 	}
 
 
@@ -54,13 +64,13 @@ public class AssociadoDTO {
 	}
 
 
-	public LocalDate getNascimento() {
+	public String getNascimento() {
 		return nascimento;
 	}
 
 
 	public void setNascimento(LocalDate nascimento) {
-		this.nascimento = nascimento;
+		this.nascimento = converterData(nascimento);
 	}
 
 

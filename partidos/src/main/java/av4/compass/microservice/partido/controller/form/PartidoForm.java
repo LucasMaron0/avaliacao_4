@@ -23,11 +23,11 @@ public class PartidoForm {
 	@NotNull
 	private LocalDate fundacao;
 	
-	private List<Long> associados;
+	
 	
 	
 	public Partido converter () {
-		return new Partido (nome, sigla, ideologia, fundacao, associados);
+		return new Partido (nome, sigla, ideologia, fundacao);
 	}
 
 	
@@ -37,7 +37,7 @@ public class PartidoForm {
 		partido.setSigla(this.sigla);
 		partido.setIdeologia(this.ideologia);
 		partido.setFundacao(this.fundacao);
-		partido.setIdAssociados(this.associados);
+		
 
 		return partido;	
 	}
@@ -82,16 +82,6 @@ public class PartidoForm {
 		this.fundacao = fundacao;
 	}
 
-
-	public List<Long> getAssociados() {
-		return associados;
-	}
-
-
-	public void setAssociados(List<Long> associados) {
-		this.associados = associados;
-	}
-	
 	
 	
 	

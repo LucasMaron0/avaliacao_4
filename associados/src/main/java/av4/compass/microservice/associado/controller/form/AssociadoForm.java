@@ -16,35 +16,33 @@ import av4.compass.microservice.associado.modelo.Sexo;
 import av4.compass.microservice.associado.repository.AssociadoRepository;
 
 public class AssociadoForm {
-	
-	
-	
+
+
+
 	@NotNull@NotEmpty @Pattern(regexp="^[A-Za-z ]*$",message = "Digite um nome válido (apenas letras)")
 	private String nome;
-	
 	@NotNull
 	private CargoPolitico cargo;
-	
 	@NotNull
 	private  LocalDate nascimento;
 	@NotNull
 	private Sexo sexo;
-	
+
 
 	public Associado converter() {
 		return new Associado (nome, cargo, nascimento, sexo);
-	
+
 	}
-	
+
 	public Associado atualizar(Long id,  AssociadoRepository repo) {
 		Associado associado = repo.getById(id);
 		associado.setNome(this.nome);
 		associado.setCargo(this.cargo);
 		associado.setNascimento(this.nascimento);
 		associado.setSexo(this.sexo);
-	
+
 		return associado;
-		
+
 	}
 
 	public String getNome() {
@@ -83,9 +81,9 @@ public class AssociadoForm {
 	}
 
 
-	
-	
-	
+
+
+
 
 
 }

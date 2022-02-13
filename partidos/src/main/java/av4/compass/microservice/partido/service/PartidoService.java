@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import av4.compass.microservice.partido.client.AssociadosClient;
-import av4.compass.microservice.partido.controller.dto.CadastroAssociadoDTO;
+import av4.compass.microservice.partido.controller.dto.RequestCadastroDTO;
 import av4.compass.microservice.partido.controller.dto.PartidoDTO;
 import av4.compass.microservice.partido.controller.dto.RetornoRequestDTO;
 import av4.compass.microservice.partido.controller.form.PartidoForm;
@@ -29,7 +29,7 @@ public class PartidoService {
 		return aClient.buscarAssociados(ids);
 	}
 
-	public ResponseEntity<PartidoDTO> cadastrarAssociadoPartido( CadastroAssociadoDTO dto) {		
+	public ResponseEntity<PartidoDTO> cadastrarAssociadoPartido( RequestCadastroDTO dto) {		
 
 		Optional<Partido> partido = ptRepo.findById(dto.getIdPartido());
 		if (partido.isPresent()) {
@@ -47,7 +47,7 @@ public class PartidoService {
 		}		
 	}
 
-	public void descadastrarAssociado (CadastroAssociadoDTO dto) {
+	public void descadastrarAssociado (RequestCadastroDTO dto) {
 
 		Optional<Partido> partido = ptRepo.findById(dto.getIdPartido());
 

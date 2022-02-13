@@ -1,9 +1,12 @@
 package av4.compass.microservice.associado.controller.form;
 
+import javax.validation.constraints.NotNull;
+
 public class CadastrarPartidoForm {
 	
-	
+	@NotNull
 	private Long idAssociado;
+	@NotNull
 	private long idPartido;
 	
 	

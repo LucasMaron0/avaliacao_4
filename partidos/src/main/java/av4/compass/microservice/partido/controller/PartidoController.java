@@ -10,11 +10,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +35,7 @@ import av4.compass.microservice.partido.modelo.Ideologia;
 import av4.compass.microservice.partido.modelo.Partido;
 import av4.compass.microservice.partido.repository.PartidoRepository;
 import av4.compass.microservice.partido.service.PartidoService;
+import av4.compass.microservice.partido.validacao.ErroDeFormularioDto;
 
 
 
@@ -111,28 +114,33 @@ public class PartidoController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
-	@CacheEvict(value = "allAssociados", allEntries = true)
-	public ResponseEntity<?> remover(@PathVariable Long id) {
+	@CacheEvict(value = "listagemPartidos", allEntries = true)
+	public ResponseEntity<?> remover(@PathVariable Long id)  {
 		Optional<Partido> optional = ptRepo.findById(id);
 		if (optional.isPresent()) {
-			ptRepo.deleteById(id);
-			return ResponseEntity.ok().build();
+			if(optional.get().getIdAssociados().isEmpty()) {
+				ptRepo.deleteById(id);
+				return ResponseEntity.ok().build();
+			}else {
+				return ResponseEntity.badRequest().body(new ErroDeFormularioDto("Erro","Não é possível deletar partidos com associados"));		
+			}
 		}
 		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping("/{id}/associados")
-	public ResponseEntity<List<RetornoRequestDTO>> listAssociados(@PathVariable long id){
+	public ResponseEntity<?> listAssociados(@PathVariable long id){
 		
 		Optional<Partido> partido = ptRepo.findById(id);
 		
 		if (partido.isPresent()) {
 			List<Long> ids = partido.get().getIdAssociados();
-			List<RetornoRequestDTO> associados = ptService.receberAssociados(ids);
-			System.out.println(associados.size());
-			
+			if(ids.isEmpty()) {
+				return ResponseEntity.badRequest().body(new ErroDeFormularioDto("Erro", "Este partido não possui associados"));
+			}else {
+			List<RetornoRequestDTO> associados = ptService.receberAssociados(ids);		
 			return ResponseEntity.ok(associados);	
-			
+			}
 		}else {
 			return ResponseEntity.notFound().build();
 		}

@@ -31,6 +31,7 @@ import av4.compass.microservice.associado.modelo.Associado;
 import av4.compass.microservice.associado.modelo.CargoPolitico;
 import av4.compass.microservice.associado.repository.AssociadoRepository;
 import av4.compass.microservice.associado.service.AssociadoService;
+import av4.compass.microservice.associado.validacao.ErroDeFormularioDto;
 
 @RestController
 @RequestMapping("/associados")
@@ -120,25 +121,27 @@ public class AssociadoController {
 	@PostMapping("/partidos")
 	@Transactional
 	@CacheEvict(value = "allAssociados", allEntries = true)
-	public ResponseEntity<AssociadoDTO> cadastrar(@RequestBody @Valid CadastrarPartidoForm form){
+	public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarPartidoForm form){
 		
 		String siglaPartido = aService.cadastrarAssociado(form);
 		
 		Optional<Associado> optional = asRepo.findById(form.getIdAssociado());
 		
 		if (optional.isPresent()) {
-			optional.get().setPartido(siglaPartido);
-			return ResponseEntity.ok(new AssociadoDTO(optional.get()));
+			if (optional.get().getPartido().equals("0")) {
+				optional.get().setPartido(siglaPartido);
+				return ResponseEntity.ok(new AssociadoDTO(optional.get()));
+			}else {
+				return ResponseEntity.badRequest().body(new ErroDeFormularioDto("Erro","Associado já pertence a outro partido"));
+			}
 		}
-
 			return ResponseEntity.notFound().build();
-			
 		}
 	
 	@DeleteMapping("/{associadoId}/partidos/{partidoId}")
 	@Transactional
 	@CacheEvict(value = "allAssociados", allEntries = true)
-	public ResponseEntity<AssociadoDTO> removerPartido(@PathVariable("associadoId") Long aId, @PathVariable("partidoId") Long ptId){
+	public ResponseEntity<?> removerPartido(@PathVariable("associadoId") Long aId, @PathVariable("partidoId") Long ptId){
 			
 		CadastrarPartidoForm form = new CadastrarPartidoForm();
 		form.setIdAssociado(aId);
@@ -146,9 +149,15 @@ public class AssociadoController {
 		
 		Optional<Associado> optional = asRepo.findById(aId);
 		if (optional.isPresent()) {
-			aService.descadastrarAssociado(form);
-			optional.get().setPartido("0");
-			return ResponseEntity.ok(new AssociadoDTO(optional.get()));
+			if(!optional.get().getPartido().equals("0")) {
+				aService.descadastrarAssociado(form);
+				optional.get().setPartido("0");
+				return ResponseEntity.ok(new AssociadoDTO(optional.get()));
+			}else {
+				return ResponseEntity.badRequest().body(new ErroDeFormularioDto("Erro","Associado não pertence a nenhum partido"));
+			}
+			
+			
 		}
 			return ResponseEntity.notFound().build();
 			

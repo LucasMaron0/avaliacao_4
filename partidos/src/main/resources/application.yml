@@ -22,6 +22,9 @@ spring:
 
   application:
     name: 'partidos'
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
     
 eureka:
   client:
@@ -29,3 +32,5 @@ eureka:
     fetch-registry: true
     service-url:
       default-zone: http://localhost:8761/eureka
+      
+      

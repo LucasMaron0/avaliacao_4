@@ -6,13 +6,13 @@ import java.time.LocalDate;
 
 public class RetornoRequestDTO {
 	
-
 	private Long id;
 	private String nome;
 	private String cargo;
-	private LocalDate nascimento;
+	private String nascimento;
 	private String sexo;
 	private String partido;
+	
 	public Long getId() {
 		return id;
 	}
@@ -31,10 +31,10 @@ public class RetornoRequestDTO {
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
-	public LocalDate getNascimento() {
+	public String getNascimento() {
 		return nascimento;
 	}
-	public void setNascimento(LocalDate nascimento) {
+	public void setNascimento(String nascimento) {
 		this.nascimento = nascimento;
 	}
 	public String getSexo() {
@@ -49,10 +49,10 @@ public class RetornoRequestDTO {
 	public void setPartido(String partido) {
 		this.partido = partido;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 }

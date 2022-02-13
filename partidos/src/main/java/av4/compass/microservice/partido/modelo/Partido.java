@@ -31,13 +31,13 @@ public class Partido {
 	}
 	
 	
-	public Partido(String nome, String sigla, Ideologia ideologia, LocalDate fundacao, List<Long> associados) {
+	public Partido(String nome, String sigla, Ideologia ideologia, LocalDate fundacao) {
 		
 		this.nome = nome;
 		this.sigla = sigla;
 		this.ideologia = ideologia;
 		this.fundacao = fundacao;
-		this.idAssociados = associados;
+		
 	}
 
 

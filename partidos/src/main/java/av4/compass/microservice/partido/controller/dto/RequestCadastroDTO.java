@@ -1,6 +1,6 @@
 package av4.compass.microservice.partido.controller.dto;
 
-public class CadastroAssociadoDTO {
+public class RequestCadastroDTO {
 	
 	private long idAssociado;
 	private long idPartido;
