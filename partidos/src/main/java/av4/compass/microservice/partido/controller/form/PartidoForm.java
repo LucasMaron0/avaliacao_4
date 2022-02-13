@@ -31,8 +31,8 @@ public class PartidoForm {
 	}
 
 	
-	public Partido atualizar(Long id,  PartidoRepository repo) {
-		Partido partido = repo.getById(id);
+	public Partido atualizar(Partido partido) {
+		
 		partido.setNome(this.nome);
 		partido.setSigla(this.sigla);
 		partido.setIdeologia(this.ideologia);

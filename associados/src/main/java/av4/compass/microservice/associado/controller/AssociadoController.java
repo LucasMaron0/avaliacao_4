@@ -96,8 +96,9 @@ public class AssociadoController {
 	public ResponseEntity<AssociadoDTO> atualizar(@PathVariable Long id, @RequestBody @Valid AssociadoForm form) {
 		Optional<Associado> optional = asRepo.findById(id);
 		if (optional.isPresent()) {
-			Associado associado = form.atualizar(id, asRepo);
-			return ResponseEntity.ok(new AssociadoDTO(associado));
+			Associado as = optional.get();
+			Associado associadoAtualizado = form.atualizar(as);
+			return ResponseEntity.ok(new AssociadoDTO(associadoAtualizado));
 		}
 
 		return ResponseEntity.notFound().build();

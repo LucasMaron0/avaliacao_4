@@ -34,8 +34,8 @@ public class AssociadoForm {
 
 	}
 
-	public Associado atualizar(Long id,  AssociadoRepository repo) {
-		Associado associado = repo.getById(id);
+	public Associado atualizar(Associado associado) {
+		
 		associado.setNome(this.nome);
 		associado.setCargo(this.cargo);
 		associado.setNascimento(this.nascimento);

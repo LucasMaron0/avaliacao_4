@@ -105,8 +105,9 @@ public class PartidoController {
 	public ResponseEntity<PartidoDTO> atualizar(@PathVariable Long id, @RequestBody @Valid PartidoForm form) {
 		Optional<Partido> optional = ptRepo.findById(id);
 		if (optional.isPresent()) {
-			Partido partido = form.atualizar(id, ptRepo);
-			return ResponseEntity.ok(new PartidoDTO(partido));
+			Partido pt = optional.get();
+			Partido partidoAtualizado = form.atualizar(pt);
+			return ResponseEntity.ok(new PartidoDTO(partidoAtualizado));
 		}
 
 		return ResponseEntity.notFound().build();
