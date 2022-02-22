@@ -19,7 +19,7 @@ public class AssociadosApplication {
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
-	
+	//testeetstetesteteste
 	public static void main(String[] args) {
 		SpringApplication.run(AssociadosApplication.class, args);
 	}
